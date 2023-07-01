@@ -1,9 +1,9 @@
-import { WebSocket } from 'ws';
+import { WebSocketServer } from 'ws';
 
 import { MongoClient } from 'mongodb';
 import { format } from 'util';
 
-const wss = new WebSocket.Server({ port: 9000 });
+const wss = new WebSocketServer({ port: 9000 });
 
 let userListDB;
 let chatDB;
@@ -17,6 +17,12 @@ MongoClient.connect('mongodb://127.0.0.1:27017', (err, db) => {
 
   userListDB = db.collection('users');
   chatDB = db.collection('chat');
+  s1='123asd';
+  userListDB.insert({ login: '123', s1 }, { w: 1 }, (err) => {
+    if (err) {
+      throw err;
+    }
+  })
 });
 
 function existUser(user, callback) {

@@ -4,6 +4,8 @@ function $(a) {
   return document.getElementById(a);
 }
 
+const button = $('enter');
+
 function specialsIn(event) {
   let { message } = event;
   const moment = new Date(event.time);
@@ -62,7 +64,7 @@ function specialsOut(message) {
 }
 
 $('password').onkeydown = function (e) {
-  if (e.key === 13) {
+  if (e.key === 13 || e.target === button) {
     ws.send(
       JSON.stringify({
         type: 'authorize',
@@ -90,3 +92,7 @@ const observer = new MutationObserver((mutations) => {
     objDiv.scrollTop = objDiv.scrollHeight;
   });
 }).observe($('messages'), { childList: true });
+
+window.onbeforeunload = () => {
+  ws.close();
+};
